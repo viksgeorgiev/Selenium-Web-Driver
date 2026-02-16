@@ -1,27 +1,30 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage("Build"){
-            steps{
-               bat "dotnet build"
+    stages {
+        stage("Build") {
+            steps {
+                bat "dotnet build"
             }
         }
-        parallel{
-            stage("Run Test One"){
-            steps{
-               bat "dotnet test TestProject1/TestProject1.csproj --no-build --verbosity normal"
+
+        stage("Run Tests in Parallel") {
+            parallel {
+                stage("Test Project 1") {
+                    steps {
+                        bat "dotnet test TestProject1/TestProject1.csproj --no-build --verbosity normal"
+                    }
+                }
+                stage("Test Project 2") {
+                    steps {
+                        bat "dotnet test TestProject2/TestProject2.csproj --no-build --verbosity normal"
+                    }
+                }
+                stage("Test Project 3") {
+                    steps {
+                        bat "dotnet test TestProject3/TestProject3.csproj --no-build --verbosity normal"
+                    }
+                }
             }
-        }
-        stage("Run Test Two"){
-            steps{
-               bat "dotnet test TestProject2/TestProject2.csproj --no-build --verbosity normal"
-            }
-        }
-        stage("Run Test Three"){
-            steps{
-               bat "dotnet test TestProject3/TestProject3.csproj --no-build --verbosity normal"
-            }
-        }
         }
     }
 }
