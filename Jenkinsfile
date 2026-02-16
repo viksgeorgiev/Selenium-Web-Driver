@@ -6,7 +6,8 @@ pipeline{
                bat "dotnet build"
             }
         }
-        stage("Run Test One"){
+        parallel{
+            stage("Run Test One"){
             steps{
                bat "dotnet test TestProject1/TestProject1.csproj --no-build --verbosity normal"
             }
@@ -20,6 +21,7 @@ pipeline{
             steps{
                bat "dotnet test TestProject3/TestProject3.csproj --no-build --verbosity normal"
             }
+        }
         }
     }
 }
